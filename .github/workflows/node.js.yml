@@ -8,24 +8,28 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
+  
 jobs:
   build:
-
+    name: "Build and Test"
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    permissions:
+      # Required to allow actions/checkout to clone the repository onto the runner
+      contents: read
+      # Required to allow the vitest coverage action to write a comment into the pull request
+      pull-requests: write
+    
 
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 16.x
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - uses: davelosert/vitest-coverage-report-action@v1
+      with:
+        vite-config-path: vite.config.ts
