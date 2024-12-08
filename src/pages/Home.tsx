@@ -36,7 +36,7 @@ const Home: FunctionComponent = (): ReactElement => {
 
   return (
     <>
-      <Headline>All Rockets available</Headline>
+      <Headline>Hello Nurda</Headline>
       <OctoCollection
         octoItems={data ?? []}
         onToggleOctocat={handleToggleOctocat}
