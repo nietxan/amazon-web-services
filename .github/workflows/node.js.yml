@@ -58,5 +58,5 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: latest
+          tags: ghrc.io/nietxan/amazon-web-services:latest
   
