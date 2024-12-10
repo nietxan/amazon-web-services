@@ -54,9 +54,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Generate Docker Metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=tag
+            type=ref,event=pr
+            type=sha,event=branch,prefix=,suffix=,format=short
+
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
         with:
           push: true
           tags: ghrc.io/nietxan/amazon-web-services:latest
-  
+          labels: ${{ steps.meta.outputs.labels }}
